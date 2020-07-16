@@ -78,6 +78,7 @@ function GetValidationInfo() {
   VALIDATE_EDITORCONFIG=$(echo "$VALIDATE_EDITORCONFIG" | awk '{print tolower($0)}')
   VALIDATE_DART=$(echo "$VALIDATE_DART" | awk '{print tolower($0)}')
   VALIDATE_HTML=$(echo "$VALIDATE_HTML" | awk '{print tolower($0)}')
+  VALIDATE_LUA=$(echo "$VALIDATE_LUA" | awk '{print tolower($0)}')
 
   ################################################
   # Determine if any linters were explicitly set #
@@ -111,6 +112,7 @@ function GetValidationInfo() {
     $VALIDATE_OPENAPI || -n \
     $VALIDATE_KOTLIN || -n \
     $VALIDATE_DART || -n \
+    $VALIDATE_LUA || -n \
     $VALIDATE_EDITORCONFIG || -n \
     $VALIDATE_HTML ]]; then
     ANY_SET="true"
@@ -494,6 +496,20 @@ function GetValidationInfo() {
     VALIDATE_DART="true"
   fi
 
+  ###################################
+  # Validate if we should check LUA #
+  ###################################
+  if [[ $ANY_SET == "true" ]]; then
+    # Some linter flags were set - only run those set to true
+    if [[ -z $VALIDATE_LUA ]]; then
+      # ENV flag was not set - default to false
+      VALIDATE_LUA="false"
+    fi
+  else
+    # No linter flags were set - default all to true
+    VALIDATE_LUA="true"
+  fi
+
   #######################################
   # Validate if we should check OPENAPI #
   #######################################
@@ -709,6 +725,11 @@ function GetValidationInfo() {
     PRINT_ARRAY+=("- Validating [DART] files in code base...")
   else
     PRINT_ARRAY+=("- Excluding [DART] files in code base...")
+  fi
+  if [[ $VALIDATE_LUA == "true" ]]; then
+    PRINT_ARRAY+=("- Validating [LUA] files in code base...")
+  else
+    PRINT_ARRAY+=("- Excluding [LUA] files in code base...")
   fi
   if [[ $VALIDATE_EDITORCONFIG == "true" ]]; then
     PRINT_ARRAY+=("- Validating [EDITORCONFIG] files in code base...")

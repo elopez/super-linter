@@ -175,6 +175,12 @@ RUN wget https://storage.googleapis.com/dart-archive/channels/stable/release/${D
     && mv dart-sdk/bin/* /usr/bin/ && mv dart-sdk/lib/* /usr/lib/ && mv dart-sdk/include/* /usr/include/ \
     && rm -r dart-sdk/
 
+####################
+# Install luacheck #
+####################
+RUN apk add --no-cache lua luarocks
+RUN luarocks install luacheck
+
 ################
 # Install Raku #
 ################
@@ -234,6 +240,7 @@ ENV GITHUB_SHA=${GITHUB_SHA} \
     VALIDATE_OPENAPI=${VALIDATE_OPENAPI} \
     VALIDATE_PROTOBUF=${VALIDATE_PROTOBUF} \
     VALIDATE_EDITORCONFIG=${VALIDATE_EDITORCONFIG} \
+    VALIDATE_LUA=${VALIDATE_LUA} \
     ANSIBLE_DIRECTORY=${ANSIBLE_DIRECTORY} \
     RUN_LOCAL=${RUN_LOCAL} \
     TEST_CASE_RUN=${TEST_CASE_RUN} \

@@ -47,6 +47,7 @@ Developers on **GitHub** can call the **GitHub Action** to lint their code base 
 | **JavaScript**   | [eslint](https://eslint.org/) [standard js](https://standardjs.com/)     |
 | **JSON**         | [jsonlint](https://github.com/zaach/jsonlint)                            |
 | **Kotlin**       | [ktlint](https://github.com/pinterest/ktlint)                            |
+| **Lua**          | [luacheck](https://github.com/luarocks/luacheck)
 | **Markdown**     | [markdownlint](https://github.com/igorshubovych/markdownlint-cli#readme) |
 | **OpenAPI**      | [spectral](https://github.com/stoplightio/spectral)                      |
 | **Perl**         | [perl](https://pkgs.alpinelinux.org/package/edge/main/x86/perl)          |
@@ -190,6 +191,7 @@ and won't run anything unexpected.
 | **VALIDATE_CLOUDFORMATION** | `true` | Flag to enable or disable the linting process of the language. |
 | **VALIDATE_PROTOBUF** | `true` | Flag to enable or disable the linting process of the language. |
 | **VALIDATE_EDITORCONFIG** | `true` | Flag to enable or disable the linting process with the editorconfig. |
+| **VALIDATE_LUA** | `true` | Flag to enable or disable the linting process of the language. |
 | **ANSIBLE_DIRECTORY** | `/ansible` | Flag to set the root directory for Ansible file location(s). |
 | **ACTIONS_RUNNER_DEBUG** | `false` | Flag to enable additional information about the linter, versions, and additional output. |
 | **DISABLE_ERRORS** | `false` | Flag to have the linter complete with exit code 0 even if errors were detected. |

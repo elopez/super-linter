@@ -86,6 +86,9 @@ DART_LINTER_RULES="$DEFAULT_RULES_LOCATION/$DART_FILE_NAME"             # Path t
 # HTML Vars
 HTML_FILE_NAME='.htmlhintrc'                                            # Name of the file
 HTML_LINTER_RULES="$DEFAULT_RULES_LOCATION/$HTML_FILE_NAME"             # Path to the CSS lint rules
+# Lua Vars
+LUA_FILE_NAME='.luacheckrc'                                             # Name of the file
+LUA_LINTER_RULES="$DEFAULT_RULES_LOCATION/$LUA_FILE_NAME"               # Path to the LUA lint rules
 
 #######################################
 # Linter array for information prints #
@@ -94,7 +97,7 @@ LINTER_ARRAY=("jsonlint" "yamllint" "xmllint" "markdownlint" "shellcheck"
   "pylint" "perl" "raku" "rubocop" "coffeelint" "eslint" "standard"
   "ansible-lint" "dockerfilelint" "golangci-lint" "tflint"
   "stylelint" "dotenv-linter" "pwsh" "arm-ttk" "ktlint" "protolint" "clj-kondo"
-  "spectral" "cfn-lint" "dart" "htmlhint")
+  "spectral" "cfn-lint" "dart" "htmlhint" "lua")
 
 #############################
 # Language array for prints #
@@ -103,7 +106,7 @@ LANGUAGE_ARRAY=('YML' 'JSON' 'XML' 'MARKDOWN' 'BASH' 'PERL' 'RAKU' 'PHP' 'RUBY' 
   'COFFEESCRIPT' 'ANSIBLE' 'JAVASCRIPT_STANDARD' 'JAVASCRIPT_ES' 'JSX' 'TSX'
   'TYPESCRIPT_STANDARD' 'TYPESCRIPT_ES' 'DOCKER' 'GO' 'TERRAFORM'
   'CSS' 'ENV' 'POWERSHELL' 'ARM' 'KOTLIN' 'PROTOBUF' 'CLOJURE' 'OPENAPI'
-  'CFN' 'DART' 'HTML')
+  'CFN' 'DART' 'HTML' 'LUA')
 
 ###################
 # GitHub ENV Vars #
@@ -148,6 +151,8 @@ VALIDATE_EDITORCONFIG="${VALIDATE_EDITORCONFIG}"               # Boolean to vali
 TEST_CASE_RUN="${TEST_CASE_RUN}"                               # Boolean to validate only test cases
 DISABLE_ERRORS="${DISABLE_ERRORS}"                             # Boolean to enable warning-only output without throwing errors
 VALIDATE_HTML="${VALIDATE_HTML}"                               # Boolean to validate language
+VALIDATE_LUA="${VALIDATE_LUA}"                                 # Boolean to validate language
+
 
 ##############
 # Debug Vars #
@@ -220,6 +225,7 @@ FILE_ARRAY_PROTOBUF=()            # Array of files to check
 FILE_ARRAY_OPENAPI=()             # Array of files to check
 FILE_ARRAY_DART=()                # Array of files to check
 FILE_ARRAY_HTML=()                # Array of files to check
+FILE_ARRAY_LUA=()                 # Array of files to check
 
 ############
 # Counters #
@@ -256,6 +262,7 @@ ERRORS_FOUND_PROTOBUF=0            # Count of errors found
 ERRORS_FOUND_OPENAPI=0             # Count of errors found
 ERRORS_FOUND_DART=0                # Count of errors found
 ERRORS_FOUND_HTML=0                # Count of errors found
+ERRORS_FOUND_LUA=0                 # Count of errors found
 
 ################################################################################
 ########################## FUNCTIONS BELOW #####################################
@@ -824,6 +831,7 @@ Footer() {
     [ "$ERRORS_FOUND_CLOJURE" -ne 0 ] ||
     [ "$ERRORS_FOUND_KOTLIN" -ne 0 ] ||
     [ "$ERRORS_FOUND_DART" -ne 0 ] ||
+    [ "$ERRORS_FOUND_LUA" -ne 0 ] ||
     [ "$ERRORS_FOUND_HTML" -ne 0 ]; then
     # Failed exit
     echo -e "${NC}${F[R]}Exiting with errors found!${NC}"
@@ -910,6 +918,8 @@ GetLinterRules "CFN"
 GetLinterRules "DART"
 # Get HTML rules
 GetLinterRules "HTML"
+# Get LUA rules
+GetLinterRules "LUA"
 
 #################################
 # Check if were in verbose mode #
@@ -1240,6 +1250,17 @@ if [ "$VALIDATE_DART" == "true" ]; then
   #######################
   # LintCodebase "FILE_TYPE" "LINTER_NAME" "LINTER_CMD" "FILE_TYPES_REGEX" "FILE_ARRAY"
   LintCodebase "DART" "dart" "pub get || true && dartanalyzer --fatal-infos --fatal-warnings --options $DART_LINTER_RULES" ".*\.\(dart\)\$" "${FILE_ARRAY_DART[@]}"
+fi
+
+###############
+# LUA LINTING #
+###############
+if [ "$VALIDATE_LUA" == "true" ]; then
+  ######################
+  # Lint the Lua files #
+  ######################
+  # LintCodebase "FILE_TYPE" "LINTER_NAME" "LINTER_CMD" "FILE_TYPES_REGEX" "FILE_ARRAY"
+  LintCodebase "LUA" "lua" "luacheck ".*\.\(lua\)\$" "${FILE_ARRAY_LUA[@]}"
 fi
 
 ##################

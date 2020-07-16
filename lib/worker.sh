@@ -528,6 +528,7 @@ function RunTestCases() {
   TestCodebase "OPENAPI" "spectral" "spectral lint -r $OPENAPI_LINTER_RULES" ".*\.\(ymlopenapi\|jsonopenapi\)\$" "openapi"
   TestCodebase "DART" "dart" "dartanalyzer --fatal-infos  --fatal-warnings --options $DART_LINTER_RULES" ".*\.\(dart\)\$" "dart"
   TestCodebase "HTML" "htmlhint" "htmlhint --config $HTML_LINTER_RULES" ".*\.\(html\)\$" "html"
+  TestCodebase "LUA" "lua" "luacheck" ".*\.\(lua\)\$" "lua"
 
   #################
   # Footer prints #
