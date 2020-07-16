@@ -180,8 +180,8 @@ RUN wget https://storage.googleapis.com/dart-archive/channels/stable/release/${D
 ####################
 # Install luacheck #
 ####################
-RUN wget https://www.lua.org/ftp/lua-5.4.0.tar.gz -O - -q | tar -xzf - \
-    && cd lua-5.4.0 \
+RUN wget https://www.lua.org/ftp/lua-5.3.5.tar.gz -O - -q | tar -xzf - \
+    && cd lua-5.3.5 \
     && make linux \
     && make install
 
