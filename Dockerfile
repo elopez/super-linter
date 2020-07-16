@@ -187,9 +187,9 @@ RUN wget https://www.lua.org/ftp/lua-5.4.0.tar.gz -O - -q | tar -xzf - \
 
 RUN wget https://luarocks.org/releases/luarocks-3.3.1.tar.gz -O - -q | tar -xzf - \
     && cd luarocks-3.3.1 \
+    && ./configure --with-lua-include=/usr/local/include \
     && make \
-    && make install \
-    && ./configure --with-lua-include=/usr/local/include
+    && make -b install
 
 RUN luarocks install luacheck
 
