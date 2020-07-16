@@ -51,6 +51,7 @@ RUN apk add --no-cache \
     go \
     icu-libs \
     jq \
+    libc-dev \
     libxml2-utils \
     make \
     musl-dev \
@@ -60,6 +61,7 @@ RUN apk add --no-cache \
     perl \
     php7 \
     py3-setuptools \
+    readline-dev \
     ruby \
     ruby-dev \
     ruby-bundler \
@@ -178,7 +180,17 @@ RUN wget https://storage.googleapis.com/dart-archive/channels/stable/release/${D
 ####################
 # Install luacheck #
 ####################
-RUN apk add --no-cache lua luarocks
+RUN wget https://www.lua.org/ftp/lua-5.4.0.tar.gz -O - -q | tar -xf - \
+    && cd lua-5.4.0 \
+    && make linux \
+    && make install
+
+RUN wget https://luarocks.org/releases/luarocks-3.3.1.tar.gz -O - -q | tar -xf - \
+    && cd luarocks-3.3.1 \
+    && make linux \
+    && make install \
+    && ./configure --with-lua-include=/usr/local/include
+
 RUN luarocks install luacheck
 
 ################
